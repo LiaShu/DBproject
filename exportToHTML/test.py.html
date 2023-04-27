@@ -1,0 +1,41 @@
+<html>
+<head>
+<title>test.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+.s3 { color: #808080;}
+.s4 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+test.py</font>
+</center></td></tr></table>
+<pre><span class="s0">def </span><span class="s1">header(func):</span>
+    <span class="s0">def </span><span class="s1">inner(*args</span><span class="s0">, </span><span class="s1">**kwargs):</span>
+        <span class="s1">print(</span><span class="s2">'&lt;h1&gt;'</span><span class="s1">)</span>
+        <span class="s1">func(*args</span><span class="s0">, </span><span class="s1">**kwargs)</span>
+        <span class="s1">print(</span><span class="s2">'&lt;/h1&gt;'</span><span class="s1">)</span>
+    <span class="s0">return </span><span class="s1">inner</span>
+
+<span class="s0">def </span><span class="s1">table(func):</span>
+    <span class="s0">def </span><span class="s1">inner(*args</span><span class="s0">, </span><span class="s1">**kwargs):</span>
+        <span class="s1">print(</span><span class="s2">'&lt;table&gt;'</span><span class="s1">)</span>
+        <span class="s1">func(*args</span><span class="s0">, </span><span class="s1">**kwargs)</span>
+        <span class="s1">print(</span><span class="s2">'&lt;/table&gt;'</span><span class="s1">)</span>
+    <span class="s0">return </span><span class="s1">inner</span>
+
+<span class="s3">#@header  say = header(say)</span>
+<span class="s1">@table</span>
+<span class="s0">def </span><span class="s1">say(name</span><span class="s0">, </span><span class="s1">surname</span><span class="s0">, </span><span class="s1">age):</span>
+    <span class="s1">print(</span><span class="s2">'Hello,'</span><span class="s0">, </span><span class="s1">name</span><span class="s0">, </span><span class="s1">surname</span><span class="s0">, </span><span class="s1">age)</span>
+
+<span class="s1">say(</span><span class="s2">'Ola'</span><span class="s0">, </span><span class="s2">'Ivanova'</span><span class="s0">, </span><span class="s4">20</span><span class="s1">)</span>
+</pre>
+</body>
+</html>

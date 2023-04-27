@@ -1,0 +1,195 @@
+<html>
+<head>
+<title>test_function.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+.s3 { color: #808080;}
+.s4 { color: #6897bb;}
+.s5 { color: #629755; font-style: italic;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+test_function.py</font>
+</center></td></tr></table>
+<pre><span class="s0">import </span><span class="s1">cursor </span><span class="s0">as </span><span class="s1">cursor</span>
+<span class="s0">import </span><span class="s1">psycopg2</span>
+<span class="s0">import </span><span class="s1">requests </span><span class="s0">as </span><span class="s1">requests</span>
+<span class="s0">from </span><span class="s1">psycopg2 </span><span class="s0">import </span><span class="s1">OperationalError</span>
+<span class="s0">from </span><span class="s1">psycopg2 </span><span class="s0">import </span><span class="s1">Error</span>
+<span class="s0">from </span><span class="s1">flask </span><span class="s0">import </span><span class="s1">Flask</span><span class="s0">, </span><span class="s1">jsonify</span>
+<span class="s0">from </span><span class="s1">flask </span><span class="s0">import </span><span class="s1">abort</span>
+<span class="s0">from </span><span class="s1">flask </span><span class="s0">import </span><span class="s1">make_response</span>
+<span class="s0">from </span><span class="s1">flask </span><span class="s0">import </span><span class="s1">request</span>
+<span class="s0">import </span><span class="s1">requests</span>
+<span class="s0">from </span><span class="s1">flask </span><span class="s0">import </span><span class="s1">url_for</span>
+<span class="s0">from </span><span class="s1">flask_httpauth </span><span class="s0">import </span><span class="s1">HTTPBasicAuth</span>
+
+<span class="s1">app = Flask(__name__)</span>
+<span class="s1">auth = HTTPBasicAuth()</span>
+
+<span class="s2">'''DONE!'''</span>
+<span class="s0">def </span><span class="s1">create_connection(db_name</span><span class="s0">, </span><span class="s1">db_user</span><span class="s0">, </span><span class="s1">db_password</span><span class="s0">, </span><span class="s1">db_host</span><span class="s0">, </span><span class="s1">db_port):</span>
+    <span class="s1">connection = </span><span class="s0">None</span>
+    <span class="s0">try</span><span class="s1">:</span>
+        <span class="s1">connection = psycopg2.connect(</span>
+            <span class="s1">database=db_name</span><span class="s0">,</span>
+            <span class="s1">user=db_user</span><span class="s0">,</span>
+            <span class="s1">password=db_password</span><span class="s0">,</span>
+            <span class="s1">host=db_host</span><span class="s0">,</span>
+            <span class="s1">port=db_port</span><span class="s0">,</span>
+        <span class="s1">)</span>
+        <span class="s1">print(</span><span class="s2">&quot;Connection to PostgreSQL DB successful&quot;</span><span class="s1">)</span>
+    <span class="s0">except </span><span class="s1">OperationalError </span><span class="s0">as </span><span class="s1">e:</span>
+        <span class="s1">print(</span><span class="s2">f&quot;The error '</span><span class="s0">{</span><span class="s1">e</span><span class="s0">}</span><span class="s2">' occurred&quot;</span><span class="s1">)</span>
+    <span class="s0">return </span><span class="s1">connection</span>
+
+
+<span class="s1">connection = create_connection(</span><span class="s2">&quot;postgres&quot;</span><span class="s0">, </span><span class="s2">&quot;postgres&quot;</span><span class="s0">, </span><span class="s2">&quot;Skyline20205&quot;</span><span class="s0">, </span><span class="s2">&quot;localhost&quot;</span><span class="s0">, </span><span class="s2">&quot;5432&quot;</span><span class="s1">)</span>
+
+<span class="s2">'''DONE!'''</span>
+<span class="s0">def </span><span class="s1">execute_read_query(connection</span><span class="s0">, </span><span class="s1">query):</span>
+    <span class="s1">cursor = connection.cursor()</span>
+    <span class="s1">result = </span><span class="s0">None</span>
+    <span class="s0">try</span><span class="s1">:</span>
+        <span class="s1">cursor.execute(query)</span>
+        <span class="s1">result = cursor.fetchall()</span>
+        <span class="s0">return </span><span class="s1">result</span>
+    <span class="s0">except </span><span class="s1">OperationalError </span><span class="s0">as </span><span class="s1">e:</span>
+        <span class="s1">print(</span><span class="s2">f&quot;The error '</span><span class="s0">{</span><span class="s1">e</span><span class="s0">}</span><span class="s2">' occurred&quot;</span><span class="s1">)</span>
+
+
+<span class="s1">select_users = </span><span class="s2">&quot;SELECT * FROM users&quot;</span>
+<span class="s1">select_tasks = </span><span class="s2">&quot;SELECT * FROM task&quot;</span>
+<span class="s1">users = execute_read_query(connection</span><span class="s0">, </span><span class="s1">select_users)</span>
+<span class="s1">tasks = execute_read_query(connection</span><span class="s0">, </span><span class="s1">select_tasks)</span>
+
+<span class="s2">'''DONE!'''</span>
+<span class="s1">@app.route(</span><span class="s2">'/todo/api/v1.0/users'</span><span class="s0">, </span><span class="s1">methods=[</span><span class="s2">'GET'</span><span class="s1">])</span>
+<span class="s0">def </span><span class="s1">get_users():</span>
+    <span class="s0">return </span><span class="s1">jsonify({</span><span class="s2">'users'</span><span class="s1">: users})</span>
+
+<span class="s2">'''DONE!'''</span>
+<span class="s1">@app.route(</span><span class="s2">'/todo/api/v1.0/tasks'</span><span class="s0">, </span><span class="s1">methods=[</span><span class="s2">'GET'</span><span class="s1">])</span>
+<span class="s0">def </span><span class="s1">get_tasks():</span>
+    <span class="s0">return </span><span class="s1">jsonify({</span><span class="s2">'tasks'</span><span class="s1">: tasks})</span>
+
+<span class="s2">'''DONE!'''</span>
+<span class="s1">@app.route(</span><span class="s2">'/todo/api/v1.0/tasks/&lt;int:task_id&gt;'</span><span class="s0">, </span><span class="s1">methods=[</span><span class="s2">'GET'</span><span class="s1">])</span>
+<span class="s0">def </span><span class="s1">get_task(task_id):</span>
+    <span class="s3"># task = list(filter(lambda t: t[0][0] == task_id, tasks))</span>
+    <span class="s1">select_task = </span><span class="s2">f&quot;SELECT title, description FROM task where id_task = </span><span class="s0">{</span><span class="s1">task_id</span><span class="s0">}</span><span class="s2">&quot;</span>
+    <span class="s1">task = execute_read_query(connection</span><span class="s0">, </span><span class="s1">select_task)</span>
+    <span class="s0">if </span><span class="s1">len(task) == </span><span class="s4">0</span><span class="s1">:</span>
+        <span class="s1">abort(</span><span class="s4">404</span><span class="s1">)</span>
+    <span class="s0">return </span><span class="s1">task</span>
+    <span class="s3"># return jsonify({'task':task})</span>
+
+<span class="s2">'''DONE!'''</span>
+<span class="s1">@app.route(</span><span class="s2">'/todo/api/v1.0/status/&lt;int:status_id&gt;'</span><span class="s0">, </span><span class="s1">methods=[</span><span class="s2">'GET'</span><span class="s1">])</span>
+<span class="s0">def </span><span class="s1">get_status(status_id):</span>
+    <span class="s3"># task = list(filter(lambda t: t[0][0] == task_id, tasks))</span>
+    <span class="s1">select_status = </span><span class="s2">f&quot;SELECT status.Condition FROM status where id_status = </span><span class="s0">{</span><span class="s1">status_id</span><span class="s0">}</span><span class="s2">&quot;</span>
+    <span class="s1">status = execute_read_query(connection</span><span class="s0">, </span><span class="s1">select_status)</span>
+    <span class="s0">if </span><span class="s1">len(status) == </span><span class="s4">0</span><span class="s1">:</span>
+        <span class="s1">abort(</span><span class="s4">404</span><span class="s1">)</span>
+    <span class="s0">return </span><span class="s1">status</span>
+    <span class="s3"># return jsonify({'task':task})</span>
+
+<span class="s2">'''DONE!'''</span>
+<span class="s1">@auth.get_password</span>
+<span class="s0">def </span><span class="s1">get_auth(username):</span>
+    <span class="s1">user_pswd = </span><span class="s2">&quot;SELECT * from users&quot;</span>
+    <span class="s1">users_pswd = execute_read_query(connection</span><span class="s0">, </span><span class="s1">user_pswd)</span>
+    <span class="s1">auth_dict = {}</span>
+    <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">users_pswd:</span>
+        <span class="s1">login = list(i)[</span><span class="s4">1</span><span class="s1">::</span><span class="s4">2</span><span class="s1">]</span>
+        <span class="s1">passwd = list(i)[-</span><span class="s4">1</span><span class="s1">]</span>
+        <span class="s1">auth_dict[login[</span><span class="s4">0</span><span class="s1">]] = passwd</span>
+    <span class="s0">if </span><span class="s1">username </span><span class="s0">in </span><span class="s1">auth_dict:</span>
+        <span class="s0">global </span><span class="s1">pswd</span>
+        <span class="s1">pswd = auth_dict.get(username)</span>
+        <span class="s0">return </span><span class="s1">pswd</span>
+    <span class="s0">return None</span>
+
+<span class="s2">'''DONE!'''</span>
+<span class="s1">@auth.error_handler</span>
+<span class="s0">def </span><span class="s1">unauthorized():</span>
+    <span class="s0">return </span><span class="s1">make_response(jsonify({</span><span class="s2">'error'</span><span class="s1">: </span><span class="s2">'Unauthorized access'</span><span class="s1">})</span><span class="s0">, </span><span class="s4">401</span><span class="s1">)</span>
+
+
+<span class="s1">@app.route(</span><span class="s2">'/todo/api/v1.0/your_tasks'</span><span class="s0">, </span><span class="s1">methods=[</span><span class="s2">'GET'</span><span class="s1">])</span>
+<span class="s1">@auth.login_required</span>
+<span class="s0">def </span><span class="s1">get_tasks_user():</span>
+    <span class="s1">cur_user = str(auth.current_user())</span>
+    <span class="s1">users = </span><span class="s2">f&quot;SELECT id_user, login FROM users&quot;</span>
+    <span class="s1">users_id = execute_read_query(connection</span><span class="s0">, </span><span class="s1">users)</span>
+    <span class="s1">user_dict = {}</span>
+    <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">users_id:</span>
+        <span class="s1">id_u = list(i)[::</span><span class="s4">2</span><span class="s1">]</span>
+        <span class="s1">login = list(i)[-</span><span class="s4">1</span><span class="s1">]</span>
+        <span class="s1">user_dict[login] = id_u</span>
+    <span class="s0">if </span><span class="s1">cur_user </span><span class="s0">in </span><span class="s1">user_dict.keys():</span>
+        <span class="s1">id_n = user_dict.get(cur_user)</span>
+    <span class="s1">id_n = int(id_n[</span><span class="s4">0</span><span class="s1">])</span>
+    <span class="s1">new_list = []</span>
+    <span class="s1">select_user_task = </span><span class="s2">f&quot;SELECT user_id, task_id, status_id FROM user_task where user_id = </span><span class="s0">{</span><span class="s1">id_n</span><span class="s0">}</span><span class="s2">&quot;</span>
+    <span class="s1">user_task = execute_read_query(connection</span><span class="s0">, </span><span class="s1">select_user_task)</span>
+    <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">user_task:</span>
+        <span class="s1">new_dict = {}</span>
+        <span class="s1">status = list(i)[-</span><span class="s4">1</span><span class="s1">]</span>
+        <span class="s1">task = list(i)[</span><span class="s4">1</span><span class="s1">::</span><span class="s4">2</span><span class="s1">]</span>
+        <span class="s1">task_int = int(task[</span><span class="s4">0</span><span class="s1">])</span>
+        <span class="s1">new_dict[</span><span class="s2">'title'</span><span class="s1">] = str(get_task(task_int)[</span><span class="s4">0</span><span class="s1">][</span><span class="s4">0</span><span class="s1">])</span>
+        <span class="s1">new_dict[</span><span class="s2">'discription'</span><span class="s1">] = str(get_task(task_int)[</span><span class="s4">0</span><span class="s1">][</span><span class="s4">1</span><span class="s1">])</span>
+        <span class="s1">new_dict[</span><span class="s2">'status'</span><span class="s1">] = str(get_status(status)[</span><span class="s4">0</span><span class="s1">][</span><span class="s4">0</span><span class="s1">])</span>
+        <span class="s1">new_list.append(new_dict)</span>
+    <span class="s0">return </span><span class="s1">jsonify({</span><span class="s2">'task'</span><span class="s1">: new_list})</span>
+
+<span class="s1">@app.route(</span><span class="s2">'/todo/api/v1.0/tasks'</span><span class="s0">, </span><span class="s1">methods=[</span><span class="s2">'POST'</span><span class="s1">])</span>
+<span class="s0">def </span><span class="s1">create_task():</span>
+    <span class="s5">'''Создание новой задачи'''</span>
+    <span class="s0">if not </span><span class="s1">request.json </span><span class="s0">or not </span><span class="s2">'title' </span><span class="s0">in </span><span class="s1">request.json:</span>
+        <span class="s1">abort(</span><span class="s4">400</span><span class="s1">)</span>
+    <span class="s1">data = {</span>
+        <span class="s2">&quot;title&quot;</span><span class="s1">: request.json[</span><span class="s2">'title'</span><span class="s1">]</span><span class="s0">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="s1">: request.json[</span><span class="s2">'description'</span><span class="s1">]</span>
+    <span class="s1">}</span>
+    <span class="s1">select_task = </span><span class="s2">&quot;&quot;&quot;SELECT title, description FROM task&quot;&quot;&quot;</span>
+    <span class="s1">DB_tasks = execute_read_query(connection</span><span class="s0">, </span><span class="s1">select_task)</span>
+    <span class="s1">tasks_dict = {}</span>
+    <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">DB_tasks:</span>
+        <span class="s1">i = list(i)</span>
+        <span class="s1">title = i[</span><span class="s4">0</span><span class="s1">].lower()</span>
+        <span class="s1">val = i[</span><span class="s4">1</span><span class="s1">].lower()</span>
+        <span class="s1">tasks_dict[title] = val</span>
+    <span class="s0">if </span><span class="s1">data.get(</span><span class="s2">'title'</span><span class="s1">).lower() </span><span class="s0">in </span><span class="s1">tasks_dict </span><span class="s0">and </span><span class="s1">data.get(</span><span class="s2">'description'</span><span class="s1">).lower() </span><span class="s0">in </span><span class="s1">tasks_dict.values():</span>
+        <span class="s0">return </span><span class="s2">'Such an entry already exists. Please change the title or description.'</span>
+    <span class="s0">else</span><span class="s1">:</span>
+        <span class="s0">try</span><span class="s1">:</span>
+            <span class="s1">cursor = connection.cursor()</span>
+            <span class="s1">test_insert = (</span><span class="s2">&quot;&quot;&quot;INSERT INTO task (title, description) VALUES (%s, %s)&quot;&quot;&quot;</span><span class="s1">)</span>
+            <span class="s1">cursor.execute(test_insert</span><span class="s0">, </span><span class="s1">(data[</span><span class="s2">'title'</span><span class="s1">]</span><span class="s0">, </span><span class="s1">data[</span><span class="s2">'description'</span><span class="s1">]))</span>
+            <span class="s1">connection.commit()</span>
+            <span class="s1">cursor.close()</span>
+            <span class="s0">return </span><span class="s2">'Record inserted successfully into table'</span>
+        <span class="s0">except </span><span class="s1">(Exception</span><span class="s0">, </span><span class="s1">psycopg2.Error) </span><span class="s0">as </span><span class="s1">error:</span>
+            <span class="s1">print(</span><span class="s2">&quot;Failed to insert record into table&quot;</span><span class="s0">, </span><span class="s1">error)</span>
+        <span class="s0">finally</span><span class="s1">:</span>
+            <span class="s3"># closing database connection.</span>
+            <span class="s0">if </span><span class="s1">connection:</span>
+                <span class="s3"># cursor.close()</span>
+                <span class="s1">connection.close()</span>
+                <span class="s1">print(</span><span class="s2">&quot;PostgreSQL connection is closed&quot;</span><span class="s1">)</span>
+
+
+<span class="s0">if </span><span class="s1">__name__ == </span><span class="s2">'__main__'</span><span class="s1">:</span>
+    <span class="s1">app.run(debug=</span><span class="s0">True</span><span class="s1">)</span>
+</pre>
+</body>
+</html>
