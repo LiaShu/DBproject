@@ -31,5 +31,4 @@ from app_tasks import app_tasks
             msg.attach(MIMEText(message, 'plain'))
             s.send_message(msg)
             del msg
-            s.quit()
-        #return message'''
+            s.quit()'''
