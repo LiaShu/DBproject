@@ -4,8 +4,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from app_tasks import app_tasks
 
-connection = app_tasks("postgres", "postgres", "postgres", "localhost", "5432")
-'''class EmailService(connection):
+'''class EmailService():
     app_tasks.check_connect()
     # MY_ADDRESS = 'flyletter23@gmail.com'
     __MY_ADDRESS = 'newsletter2023@mail.ru'
@@ -14,7 +13,7 @@ connection = app_tasks("postgres", "postgres", "postgres", "localhost", "5432")
     def __init__(self, db_name, db_user, db_password, db_host, db_port):
         super().__init__(db_name, db_user, db_password, db_host, db_port)
     def get_contacts(self):
-        contact= self.get_table(['login', 'email'],'users')
+        contact= self.get_table([' login', 'email'],'users')
         s = smtplib.SMTP_SSL(host='smtp.mail.ru', port=465)
         s.login(self.__MY_ADDRESS, self.__PASSWORD)
         dict_cont = {}
