@@ -4,7 +4,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from app_tasks import app_tasks
 
-# connection = app_tasks("postgres", "postgres", "postgres", "localhost", "5432")
+connection = app_tasks("postgres", "postgres", "postgres", "localhost", "5432")
 '''class EmailService(connection):
     app_tasks.check_connect()
     # MY_ADDRESS = 'flyletter23@gmail.com'
