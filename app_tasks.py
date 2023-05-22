@@ -11,6 +11,8 @@ import requests
 # from flask import url_for
 # from flask_httpauth import HTTPBasicAuth
 
+
+
 class Singleton(type):
     _instances = {}
     def __call__(cls, *args, **kwargs):
@@ -137,7 +139,8 @@ class app_tasks(metaclass=Singleton):
 
     '''Create task'''
     '''ДОПИСАТЬ. Id новой задачки добавляется в таблицу user_task с id соответствующего
-    пользователя и со статусом id = 5 (in progres) '''
+    пользователя и со статусом id = 5 (in progres). 
+    Эта задача должна добавлять в таблицу task_user, а не в task. '''
     def create_task(self, data, cur_user):
         if cur_user in self.get_id_login():
             id_user = int(self.get_id_login().get(cur_user))
@@ -178,3 +181,6 @@ class app_tasks(metaclass=Singleton):
         cursor.close()
         return select_usr_task
     '''ДОПИСАТЬ. Если пользователь ставит статус Cenceled, то удалять ее из таблицы user_task.'''
+
+
+

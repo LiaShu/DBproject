@@ -1,0 +1,2 @@
+user@computer ~ $ cat mycontacts.txt
+gmail natashka42@googlemail.com
