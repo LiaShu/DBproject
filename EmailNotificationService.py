@@ -3,9 +3,9 @@ from string import Template
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from app_tasks import app_tasks
-from app_tasks import connection
+
 # connection = app_tasks("postgres", "postgres", "postgres", "localhost", "5432")
-class EmailService(connection):
+'''class EmailService(connection):
     app_tasks.check_connect()
     # MY_ADDRESS = 'flyletter23@gmail.com'
     __MY_ADDRESS = 'newsletter2023@mail.ru'
@@ -32,4 +32,4 @@ class EmailService(connection):
             s.send_message(msg)
             del msg
             s.quit()
-        #return message
+        #return message'''
