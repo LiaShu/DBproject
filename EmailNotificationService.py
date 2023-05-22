@@ -3,7 +3,7 @@ from string import Template
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from app_tasks import app_tasks
-
+a = 'ttt'
 '''class EmailService():
     app_tasks.check_connect()
     # MY_ADDRESS = 'flyletter23@gmail.com'
