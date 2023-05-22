@@ -4,14 +4,14 @@ from flask_httpauth import HTTPBasicAuth
 from flask import request
 from flask import abort
 from app_tasks import app_tasks
-from EmailNotificationService import EmailService
+#from EmailNotificationService import EmailService
 app = Flask(__name__)
 auth = HTTPBasicAuth()
 
 
 #c = app_tasks("postgres", "postgres", "Skyline20205", "localhost", "5432")
 c = app_tasks("postgres", "postgres", "postgres", "localhost", "5432")
-e = EmailService("postgres", "postgres", "postgres", "localhost", "5432" )
+#e = EmailService("postgres", "postgres", "postgres", "localhost", "5432" )
 
 '''Возможно использование хэшированного пароля. Использовать для этого hash_password.
 https://flask-httpauth.readthedocs.io/en/latest/'''
@@ -88,10 +88,10 @@ def update_task(task_id):
 # def get_user_task():
 #     user_task = c.get_table(['*'], 'user_task')
 #     return jsonify({'user_task': user_task})'''
-@app.route('/todo/api/v1.0/mail', methods=['POST'])
+'''@app.route('/todo/api/v1.0/mail', methods=['POST'])
 def get_contact():
     cont = e.get_contacts()
-    return 'message has been sent '
+    return 'message has been sent '''''
 
 
 if __name__ == '__main__':
