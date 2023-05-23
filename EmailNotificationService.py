@@ -2,11 +2,10 @@ import smtplib
 from string import Template
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-
 from app_tasks import app_tasks
 
-
 class EmailService():
+
     # MY_ADDRESS = 'flyletter23@gmail.com'
     __MY_ADDRESS = 'newsletter2023@mail.ru'
     __PASSWORD = 'BKkYqNjU0crxmVEWBuxq'
