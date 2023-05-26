@@ -90,8 +90,8 @@ def update_task(task_id):
 #     return jsonify({'user_task': user_task})'''
 @app.route('/todo/api/v1.0/mail', methods=['POST'])
 def get_contact():
-    cont = e.get_contacts()
-    return 'ok'
+    e.email_notif(c.get_tasks_usr())
+    return 'the letter was sent'
 
 
 if __name__ == '__main__':

@@ -13,22 +13,19 @@ class EmailService():
     def __init__(self, connect):
         self.connect = connect
 
-    def get_contacts(self):
-        contact = app_tasks.get_table(['login', 'email'], 'users')
+    def email_notif(self, dict_inf):
         s = smtplib.SMTP_SSL(host='smtp.mail.ru', port=465)
         s.login(self.__MY_ADDRESS, self.__PASSWORD)
-        dict_cont = {}
-        for i in contact:
-            dict_cont[i[0]] = i[1]
-        for key, value in dict_cont.items():
-            email=value
-            name = key
+        for k, v in dict_inf.items():
+            email = k
+            task = v
             msg = MIMEMultipart()
             msg['From'] = self.__MY_ADDRESS
             msg['To'] = email
             msg['Subject'] = "This is TEST"
-            message = f'Dear {name}! This is test letter for you. Regards'
+            message = f'Dear user! This is your task today: {task}. Regards'
             msg.attach(MIMEText(message, 'plain'))
             s.send_message(msg)
             del msg
-            s.quit()
+        s.quit()
+

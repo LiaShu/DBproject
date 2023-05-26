@@ -182,5 +182,25 @@ class app_tasks(metaclass=Singleton):
         return select_usr_task
     '''ДОПИСАТЬ. Если пользователь ставит статус Cenceled, то удалять ее из таблицы user_task.'''
 
+    '''Словарь email: [task_title]'''
+    def get_tasks_usr(self):
+        select = f"""SELECT email, title, description from users JOIN (SELECT user_id, title, description from task JOIN user_task ON task_id = id_task) ut on id_user = user_id"""
+        data = self.execute_read_query(select)
+        dict_task = {}
+        final_list = []
+        for i in data:
+            list_i = list(i)
+            final_list.append(list_i)
+        for j in final_list:
+            email = j[0]
+            value = j[1::]
+            if email not in dict_task.keys():
+                dict_task[email] = value
+            else:
+                new_value = j[1::]
+                f_val = dict_task.get(email) + new_value
+                dict_task[email] = f_val
+        return dict_task
+
 
 
