@@ -1,10 +1,13 @@
-from flask import Flask, jsonify
+import datetime
+
+from flask import Flask, jsonify, render_template
 from flask import make_response
 from flask_httpauth import HTTPBasicAuth
 from flask import request
 from flask import abort
 from app_tasks import app_tasks
 from EmailNotificationService import EmailService
+from datetime import date
 app = Flask(__name__)
 auth = HTTPBasicAuth()
 
@@ -90,7 +93,10 @@ def update_task(task_id):
 #     return jsonify({'user_task': user_task})'''
 @app.route('/todo/api/v1.0/mail', methods=['POST'])
 def get_contact():
-    e.email_notif(c.get_tasks_usr())
+    for k, v in c.get_tasks_usr().items():
+        email = k
+        msg = v
+        e.email_notif(email,  render_template('email_template.html', utc_dt=datetime.date.today(), message = msg))
     return 'the letter was sent'
 
 
